@@ -8,7 +8,7 @@
         <div class="row justify-content-between align-items-center">
           <!-- Header Logo Start -->
           <div class="col-xl-3 col-auto">
-            <div class="header-logo">
+            <div class="header-logo"  v-if="logo">
               <n-link to="/">
                 <img
                   class="dark-logo"

@@ -84,7 +84,7 @@
 
             <!-- Footer Copyright Start -->
             <div class="row max-mt-20">
-                <div class="col">
+                <div class="col" v-if="company">
                     <p class="copyright">&copy; {{ new Date().getFullYear() }} <b>{{company}}</b></p>
                 </div>
             </div>

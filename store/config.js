@@ -23,8 +23,14 @@ export const getters = {
 
 export const actions = {
   async getConfig({ commit }) {
-    const res =  await this.$axios.$get('/cms/getconfig')
-    commit('SET_LOGO', res.data.ClientSetting.logo);
-    commit('SET_CONFIG', res.data);
+    const res =  await this.$axios.$get('/cms/getconfig').catch((err) => {
+      console.log(err)
+    })
+    if (res.data) {
+      commit('SET_LOGO', res.data.ClientSetting.logo)
+      commit('SET_CONFIG', res.data)
+    }
+    console.log(process.env.API_URL);
+    console.log(process.env.CLIENT_AUTH_TOKEN);
   }
 }
