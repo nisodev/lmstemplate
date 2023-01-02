@@ -54,5 +54,9 @@ export default {
       q: "",
     });
   },
+  created() {
+     console.log(process.env.API_URL);
+     console.log(process.env.CLIENT_AUTH_TOKEN)
+  },
 };
 </script>

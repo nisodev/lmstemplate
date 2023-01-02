@@ -30,7 +30,7 @@
         <!-- Intro One Content End -->
 
         <!-- Intro One Course Start -->
-        <div class="col max-mb-30">
+        <div class="col max-mb-30" v-if="course.id">
           <div class="intro1-course">
             <img
               class="popular-course-icon"
