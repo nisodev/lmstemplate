@@ -4,7 +4,13 @@ ARG CLIENT_AUTH_TOKEN
 WORKDIR /usr/src/app
 
 COPY . ./
+ 
+RUN npm install -g npm 
+RUN  ssh-add -l
+RUN npm install --global yarn
 RUN npm install
+RUN yarn config set "strict-ssl" false
+RUN yarn build
 
 EXPOSE 8080
 
@@ -15,4 +21,4 @@ ENV CLIENT_AUTH_TOKEN=${CLIENT_AUTH_TOKEN}
 
 RUN npm run build
 
-CMD [ "npm", "run", "start" ]
+CMD [ "yarn", "start"  ]
