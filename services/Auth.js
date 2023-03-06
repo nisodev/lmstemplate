@@ -10,6 +10,6 @@ export default {
     const customHeaders = {
       'x-access-token': token
     }
-    return clientAPI(customHeaders).get('/user/getinfo')
+    return clientAPI(customHeaders).get('/client/user/getinfo')
   }
 }
