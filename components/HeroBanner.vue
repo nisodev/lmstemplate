@@ -1,7 +1,7 @@
 <template>
   <div
-    class="intro1-section section-fluid"
     v-if="banner"
+    class="intro1-section section-fluid"
     :style="{ backgroundImage: `url(${banner.bannerimage})` }"
   >
     <div class="container">
@@ -10,7 +10,9 @@
         <div class="col align-self-center max-mb-30">
           <div class="intro1-content text-center text-md-left">
             <!-- <span class="sub-title">MaxCoach is the lifebuoy</span> -->
-            <h2 class="title">ELDOR <br />LMS</h2>
+            <h2 class="title">
+              ELDOR <br>LMS
+            </h2>
             <div class="desc">
               <p>
                 The right mentoring relationship can be a powerful tool for
@@ -30,34 +32,36 @@
         <!-- Intro One Content End -->
 
         <!-- Intro One Course Start -->
-        <div class="col max-mb-30" v-if="course.id">
+        <div v-if="course" class="col max-mb-30">
           <div class="intro1-course">
             <img
               class="popular-course-icon"
               src="/images/intro/intro1/intro-popular-course.png"
               alt="image"
-            />
+            >
             <!-- Course Start -->
             <div
-              @click="$router.push(`/course/course-details?id=${course.id}`)"
-              v-if="course"
               class="course-2"
+              @click="$router.push(`/course/course-details?id=${course.id}`)"
             >
               <div class="thumbnail">
                 <n-link to="/" class="image">
-                  <img :src="course.featuredImage" alt="Course Image" />
+                  <img :src="course.featuredImage" alt="Course Image">
                 </n-link>
               </div>
               <div class="info">
-                <span v-if="course.isPaid" class="price"
-                  >{{ course.price }} {{ course.pricecurrency }}</span
-                >
+                <span
+                  v-if="course.isPaid"
+                  class="price"
+                >{{ course.price }} {{ course.pricecurrency }}</span>
                 <!-- <span class="price" v-else>Free</span> -->
                 <span class="date">{{
                   course.actualOccurStartDate | DateTimeParse('MMMM Do YYYY')
                 }}</span>
                 <h3 class="title">
-                  <n-link to="/">{{ course.title }}</n-link>
+                  <n-link to="/">
+                    {{ course.title }}
+                  </n-link>
                 </h3>
                 <div class="desc">
                   <p>
@@ -69,9 +73,9 @@
             <!-- Course End -->
 
             <ShapeWithAnimation
-              addClassName="intro1-scene"
-              dataDepth="3"
-              imgSrc="/images/shape-animation/shape-1.png"
+              add-class-name="intro1-scene"
+              data-depth="3"
+              img-src="/images/shape-animation/shape-1.png"
             />
           </div>
         </div>
@@ -87,7 +91,7 @@
         preserveAspectRatio="none"
         height="100"
       >
-        <path d="M 0 0 L100 0 Q 50 200 0 0"></path>
+        <path d="M 0 0 L100 0 Q 50 200 0 0" />
       </svg>
     </div>
     <!-- Section Bottom Shape End -->
@@ -95,27 +99,34 @@
 </template>
 
 <script>
-import Banner from '../services/Banner';
-import Course from '../services/Course';
-import { mapGetters } from 'vuex';
+import Banner from '../services/Banner'
+import Course from '../services/Course'
 export default {
   components: {
-    ShapeWithAnimation: () => import('@/components/ShapeWithAnimation'),
+    ShapeWithAnimation: () => import('@/components/ShapeWithAnimation')
   },
-  data() {
+  data () {
     return {
       banner: null,
-      course: null,
-    };
+      course: null
+    }
   },
-  async mounted() {
+  async mounted () {
     Banner.getMain().then((res) => {
-      this.banner = res.data.client.homebanner[0];
-    });
-    //TODO
+      this.banner = res.data.client.homebanner[0]
+    })
+    // TODO
     await Course.getAllCourses(this.user?.accessToken).then((res) => {
       this.course = res.data.data[0]
-    });
-  },
-};
+    }).catch((err) => {
+      console.log(err)
+      this.$swal({
+        icon: 'error',
+        title: 'Oops...',
+        text: 'Something went wrong! (CORS)'
+      })
+      this.course = {}
+    })
+  }
+}
 </script>

@@ -1,3 +1,3 @@
-export default async function ({store}){
-     store.dispatch('config/getConfig')
+export default function ({ store }) {
+  store.dispatch('config/getConfig')
 }
