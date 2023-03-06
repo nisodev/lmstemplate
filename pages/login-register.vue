@@ -9,16 +9,22 @@
         <div class="container">
           <ul class="breadcrumb">
             <li>
-              <n-link to="/">Home</n-link>
+              <n-link to="/">
+                Home
+              </n-link>
             </li>
-            <li class="current">Login Register</li>
+            <li class="current">
+              Login Register
+            </li>
           </ul>
         </div>
       </div>
 
       <div class="page-title">
         <div class="container">
-          <h1 class="title">Login Register</h1>
+          <h1 class="title">
+            Login Register
+          </h1>
         </div>
       </div>
     </div>
@@ -32,37 +38,39 @@
               <div class="col-xl-5 col-lg-6">
                 <!-- Login Form Start -->
                 <div class="login-form-wrapper">
-                  <h3 class="title">Login</h3>
+                  <h3 class="title">
+                    Login
+                  </h3>
                   <div class="login-form">
                     <div class="single-input mb-30">
                       <label for="username">Username or email</label>
                       <input
+                        id="username"
                         v-model="loginForm.username"
                         type="text"
-                        id="username"
                         name="username"
                         placeholder="Username or email"
-                      />
+                      >
                     </div>
                     <div class="single-input mb-30">
                       <label for="password">Password</label>
                       <input
-                        type="password"
-                        v-model="loginForm.password"
                         id="password"
+                        v-model="loginForm.password"
+                        type="password"
                         name="password"
                         placeholder="Password"
-                      />
+                      >
                     </div>
                     <div class="single-input mb-30">
                       <div class="row">
                         <div class="col-sm-6 remember-me-wrap">
                           <div class="checkbox-input">
                             <input
+                              id="login-form-remember"
                               type="checkbox"
                               name="login-form-remember"
-                              id="login-form-remember"
-                            />
+                            >
                             <label for="login-form-remember">Remember me</label>
                           </div>
                         </div>
@@ -75,8 +83,8 @@
                     </div>
                     <div class="single-input">
                       <button
-                        @click="login"
                         class="btn btn-primary btn-hover-secondary btn-width-100"
+                        @click="login"
                       >
                         Log In
                       </button>
@@ -88,47 +96,49 @@
               <div class="col-xl-6 offset-xl-1 col-lg-6">
                 <!-- Register Form Start -->
                 <div class="login-form-wrapper mt-sm-50 mt-xs-50">
-                  <h3 class="title">Register</h3>
+                  <h3 class="title">
+                    Register
+                  </h3>
                   <div class="register-form">
                     <div class="single-input mb-30">
                       <label for="usernameOne">Full Name</label>
                       <input
+                        id="usernameOne"
                         v-model="registerForm.fullname"
                         type="text"
-                        id="usernameOne"
                         name="username"
                         placeholder="Full Name"
-                      />
+                      >
                     </div>
                     <div class="single-input mb-30">
                       <label for="email">Email</label>
                       <input
+                        id="email"
                         v-model="registerForm.email"
                         type="text"
-                        id="email"
                         name="username"
                         placeholder="Email"
-                      />
+                      >
                     </div>
                     <div class="single-input mb-30">
                       <label for="phone">Phone</label>
                       <input
+                        id="phone"
                         v-model="registerForm.mobile"
                         type="text"
-                        id="phone"
                         name="username"
                         placeholder="Phone"
-                      />
+                      >
                     </div>
                     <div class="single-input mb-30">
                       <label for="passwordOne">Password</label>
                       <input
+                        id="passwordOne"
                         v-model="registerForm.password"
                         type="password"
-                        id="passwordOne"
                         name="password"
                         placeholder="Password"
-                      />
+                      >
                       <p class="description">
                         The password must be at least twelve characters long,
                         contain upper and lower case letters, contain numbers,
@@ -137,8 +147,8 @@
                     </div>
                     <div class="single-input">
                       <button
-                        @click="register"
                         class="btn btn-primary btn-hover-secondary btn-width-100"
+                        @click="register"
                       >
                         Register
                       </button>
@@ -159,120 +169,119 @@
 </template>
 
 <script>
-import eventData from "~/data/event";
-import Auth from "~/services/Auth";
-import jsCookie from "js-cookie";
+import jsCookie from 'js-cookie'
+import eventData from '~/data/event'
+import Auth from '~/services/Auth'
 export default {
   components: {
-    HeaderStyleTwo: () => import("@/components/HeaderStyleTwo"),
-    OffCanvasMobileMenu: () => import("@/components/OffCanvasMobileMenu"),
-    EventItemGridStyle: () => import("@/components/EventItemGridStyle"),
-    FooterStyleOne: () => import("@/components/FooterStyleOne"),
+    HeaderStyleTwo: () => import('@/components/HeaderStyleTwo'),
+    OffCanvasMobileMenu: () => import('@/components/OffCanvasMobileMenu'),
+    FooterStyleOne: () => import('@/components/FooterStyleOne')
   },
 
-  data() {
+  data () {
     return {
       registerForm: {},
       loginForm: {},
       eventData,
       options: [
-        "Popularity",
-        "Latest",
-        "Price: low to high",
-        "Price: high to low",
+        'Popularity',
+        'Latest',
+        'Price: low to high',
+        'Price: high to low'
       ],
-      placeholderItem: "Default",
-    };
+      placeholderItem: 'Default'
+    }
+  },
+
+  head () {
+    return {
+      title: 'Login Register'
+    }
+  },
+
+  computed: {
+    getSelectorPlaceholder () {
+      return this.placeholderItem
+    }
   },
   methods: {
-    login() {
+    login () {
       Auth.login(this.loginForm)
         .then(async (res) => {
           if (res.status) {
-            //GET USER INFO
+            // GET USER INFO
             await Auth.getUserDetails(res.data.accessToken)
               .then((result) => {
-                let loginResult = res.data;
-                let user = {
+                const loginResult = res.data
+                const user = {
                   ...loginResult,
-                  ...result.data,
-                };
-                jsCookie.set("user", JSON.stringify(user));
-                this.$store.commit("user/SET_USER", user);
+                  ...result.data
+                }
+                jsCookie.set('user', JSON.stringify(user))
+                this.$store.commit('user/SET_USER', user)
               })
               .catch((err) => {
-                console.log(err);
-              });
+                console.log(err)
+              })
 
-            //REDIRECT INDEX
+            // REDIRECT INDEX
             this.$swal({
-              position: "center",
-              icon: "success",
-              background: this.$colorMode.value === "dark" ? "#1a1a1a" : "#fff",
-              title: "Successfully logged in!",
+              position: 'center',
+              icon: 'success',
+              background: this.$colorMode.value === 'dark' ? '#1a1a1a' : '#fff',
+              title: 'Successfully logged in!',
               timer: 2000,
               showConfirmButton: false,
               willClose: () => {
                 if (this.$route.query.redirect) {
-                  this.$router.push(this.$route.query.redirect);
+                  this.$router.push(this.$route.query.redirect)
                 } else {
-                  this.$router.push("/");
+                  this.$router.push('/')
                 }
-              },
-            });
+              }
+            })
           }
         })
         .catch((err) => {
-          console.log(err);
+          console.log(err)
           this.$swal({
-            position: "center",
-            icon: "warning",
-            background: this.$colorMode.value === "dark" ? "#1a1a1a" : "#fff",
+            position: 'center',
+            icon: 'warning',
+            background: this.$colorMode.value === 'dark' ? '#1a1a1a' : '#fff',
             title: err.response.data.message,
             timer: 2000,
-            showConfirmButton: false,
-          });
-        });
+            showConfirmButton: false
+          })
+        })
     },
-    register() {
+    register () {
       Auth.register(this.registerForm)
         .then((res) => {
           if (res.status) {
             this.$swal({
-              position: "center",
-              icon: "success",
-              background: this.$colorMode.value === "dark" ? "#1a1a1a" : "#fff",
-              title: "Regiser Success!",
+              position: 'center',
+              icon: 'success',
+              background: this.$colorMode.value === 'dark' ? '#1a1a1a' : '#fff',
+              title: 'Regiser Success!',
               timer: 2000,
-              showConfirmButton: false,
-            });
-            this.registerForm = {};
+              showConfirmButton: false
+            })
+            this.registerForm = {}
           }
         })
         .catch((err) => {
-          console.log(err);
+          console.log(err)
           this.$swal({
-            position: "center",
-            icon: "warning",
-            background: this.$colorMode.value === "dark" ? "#1a1a1a" : "#fff",
-            title: "An error occurred!",
+            position: 'center',
+            icon: 'warning',
+            background: this.$colorMode.value === 'dark' ? '#1a1a1a' : '#fff',
+            title: 'An error occurred!',
             timer: 2000,
-            showConfirmButton: false,
-          });
-        });
-    },
-  },
-
-  computed: {
-    getSelectorPlaceholder: function () {
-      return this.placeholderItem;
-    },
-  },
-
-  head() {
-    return {
-      title: "Login Register",
-    };
-  },
-};
+            showConfirmButton: false
+          })
+        })
+    }
+  }
+}
 </script>
