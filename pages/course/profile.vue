@@ -352,6 +352,9 @@
                 <b-tab :active="isQuizTabActive" title="Quizzes">
                   <QuizList></QuizList>
                 </b-tab>
+                <b-tab title="Certificates">
+                  <Certs></Certs>
+                </b-tab>
               </b-tabs>
             </div>
           </div>
@@ -367,7 +370,6 @@
 <script>
 import Course from '~/services/Course';
 import jsCookie from 'js-cookie';
-import EditProfile from '../../components/CustomComponents/EditProfile.vue';
 import Profile from '~/services/Profile';
 import Auth from '~/services/Auth';
 import Dashboard from '~/services/Dashboard';
@@ -381,6 +383,8 @@ export default {
       import('../../components/CustomComponents/EditProfile.vue'),
     QuizList: () =>
       import('../../components/CustomComponents/QuizList.vue'),
+    Certs: () =>
+      import('../../components/CustomComponents/Certifications.vue'),
   },
   head() {
     return {

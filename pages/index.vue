@@ -19,8 +19,8 @@
     <!-- <BrandLogoCarousel /> -->
 
     <FooterStyleOne
-      addClassName="light-color"
-      addBackgroundColor="bg-navy-blue"
+      add-class-name="light-color"
+      add-background-color="bg-navy-blue"
     />
   </div>
 </template>
@@ -28,35 +28,29 @@
 <script>
 export default {
   components: {
-    HeaderStyleTwo: () => import("@/components/HeaderStyleTwo"),
-    OffCanvasMobileMenu: () => import("@/components/OffCanvasMobileMenu"),
-    HeroBanner: () => import("@/components/HeroBanner"),
-    OnlineCoachingLessons: () => import("@/components/OnlineCoachingLessons"),
-    TeacherQuote: () => import("@/components/TeacherQuote"),
-    CounterupWithTestimonial: () =>
-      import("@/components/CounterupWithTestimonial"),
-    VideoStyleOne: () => import("@/components/VideoStyleOne"),
-    CurrentSignatureCourse: () => import("@/components/CurrentSignatureCourse"),
-    BlogStyleOne: () => import("@/components/BlogStyleOne"),
-    BrandLogoCarousel: () => import("@/components/BrandLogoCarousel"),
-    FooterStyleOne: () => import("@/components/FooterStyleOne"),
+    HeaderStyleTwo: () => import('@/components/HeaderStyleTwo'),
+    OffCanvasMobileMenu: () => import('@/components/OffCanvasMobileMenu'),
+    HeroBanner: () => import('@/components/HeroBanner'),
+    OnlineCoachingLessons: () => import('@/components/OnlineCoachingLessons'),
+    BlogStyleOne: () => import('@/components/BlogStyleOne'),
+    FooterStyleOne: () => import('@/components/FooterStyleOne')
+  },
+  async asyncData ({ store }) {
+    try {
+      await store.dispatch('blog/fetchBlogPosts', {
+        page: 1,
+        limit: 3,
+        q: ''
+      })
+    } catch (error) {
+      console.log(error)
+    }
   },
 
-  head() {
+  head () {
     return {
-      title: this.config?.title + ' - Learning Portal',
-    };
-  },
-  async asyncData({ store }) {
-    await store.dispatch("blog/fetchBlogPosts", {
-      page: 1,
-      limit: 3,
-      q: "",
-    });
-  },
-  created() {
-     console.log(process.env.API_URL);
-     console.log(process.env.CLIENT_AUTH_TOKEN)
-  },
-};
+      title: this.config?.title + ' - Learning Portal'
+    }
+  }
+}
 </script>

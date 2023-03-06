@@ -8,12 +8,12 @@
         <div class="row justify-content-between align-items-center">
           <!-- Header Logo Start -->
           <div class="col-xl-3 col-auto">
-            <div class="header-logo"  v-if="logo">
+            <div v-if="logo" class="header-logo">
               <n-link to="/">
                 <img
                   class="dark-logo"
-                  :src="logo"
-                />
+                  :src="logo ||''"
+                >
               </n-link>
             </div>
           </div>
@@ -34,13 +34,13 @@
                 <!-- Header Login Start -->
                 <div class="header-login">
                   <n-link :to="user ? '/course/profile' : '/login-register'">
-                    <i class="far fa-user-circle"></i>
+                    <i class="far fa-user-circle" />
                   </n-link>
                 </div>
 
-                <div v-if="user" @click="logout" class="header-login">
+                <div v-if="user" class="header-login" @click="logout">
                   <n-link to="/">
-                    <i class="fas fa-sign-out"></i>
+                    <i class="fas fa-sign-out" />
                   </n-link>
                 </div>
 
@@ -52,17 +52,17 @@
                     class="header-search-toggle"
                     @click="isHidden = !isHidden"
                   >
-                    <i class="far fa-search"></i>
+                    <i class="far fa-search" />
                   </button>
-                  <div class="header-search-form" v-show="!isHidden">
+                  <div v-show="!isHidden" class="header-search-form">
                     <input
                       v-model="searchKey"
                       type="text"
                       placeholder="Search..."
                       @keydown.enter="search"
-                    />
+                    >
                     <button @click="search">
-                      <i class="fas fa-search"></i>
+                      <i class="fas fa-search" />
                     </button>
                   </div>
                 </div>
@@ -74,9 +74,9 @@
                     class="toggle"
                     @click="mobiletoggleClass('addClass', 'show-mobile-menu')"
                   >
-                    <i class="icon-top"></i>
-                    <i class="icon-middle"></i>
-                    <i class="icon-bottom"></i>
+                    <i class="icon-top" />
+                    <i class="icon-middle" />
+                    <i class="icon-bottom" />
                   </button>
                 </div>
                 <!-- Header Mobile Menu Toggle End -->
@@ -91,65 +91,65 @@
 </template>
 
 <script>
-import jsCookie from "js-cookie";
-import { mapGetters } from "vuex";
+import jsCookie from 'js-cookie'
+import { mapGetters } from 'vuex'
 export default {
   components: {
-    Navigation: () => import("@/components/Navigation"),
-    ColorMode: () => import("@/components/ColorMode"),
+    Navigation: () => import('@/components/Navigation'),
+    ColorMode: () => import('@/components/ColorMode')
   },
 
-  data() {
+  data () {
     return {
       isSticky: false,
       isHidden: true,
-      searchKey: "",
-    };
+      searchKey: ''
+    }
   },
   computed: {
     ...mapGetters({
-      user: "user/getUser",
-      logo: "config/getLogo"
-    }),
+      user: 'user/getUser',
+      logo: 'config/getLogo'
+    })
   },
-  mounted() {
-    window.addEventListener("scroll", () => {
-      let scrollPos = window.scrollY;
+  mounted () {
+    window.addEventListener('scroll', () => {
+      const scrollPos = window.scrollY
       if (scrollPos >= 200) {
-        this.isSticky = true;
+        this.isSticky = true
       } else {
-        this.isSticky = false;
+        this.isSticky = false
       }
-    });
+    })
   },
 
   methods: {
-    search() {
-      if (this.searchKey !== "") {
-        this.$router.push(`/course/courses-grid-one?key=${this.searchKey}`);
+    search () {
+      if (this.searchKey !== '') {
+        this.$router.push(`/course/courses-grid-one?key=${this.searchKey}`)
       }
     },
-    logout() {
-      jsCookie.remove("user");
-      this.$store.commit("user/SET_USER", undefined);
+    logout () {
+      jsCookie.remove('user')
+      this.$store.commit('user/SET_USER', undefined)
       this.$swal({
-        title: "Logout Successful",
+        title: 'Logout Successful',
         timer: 2000,
-        position: "center",
-        icon: "success",
-        background: this.$colorMode.value === "dark" ? "#1a1a1a" : "#fff",
-        showConfirmButton: false,
-      });
+        position: 'center',
+        icon: 'success',
+        background: this.$colorMode.value === 'dark' ? '#1a1a1a' : '#fff',
+        showConfirmButton: false
+      })
     },
     // offcanvas mobilemenu
-    mobiletoggleClass(addRemoveClass, className) {
-      const el = document.querySelector("#offcanvas-menu");
-      if (addRemoveClass === "addClass") {
-        el.classList.add(className);
+    mobiletoggleClass (addRemoveClass, className) {
+      const el = document.querySelector('#offcanvas-menu')
+      if (addRemoveClass === 'addClass') {
+        el.classList.add(className)
       } else {
-        el.classList.remove(className);
+        el.classList.remove(className)
       }
-    },
-  },
-};
+    }
+  }
+}
 </script>
