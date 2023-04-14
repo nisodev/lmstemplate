@@ -30,5 +30,6 @@ export const actions = {
       commit('SET_LOGO', res.data.ClientSetting.logo)
       commit('SET_CONFIG', res.data)
     }
+    return res.data
   }
 }

@@ -9,7 +9,7 @@ import Vue from 'vue'
 import userMixin from '../mixins/userMixin'
 Vue.mixin(userMixin)
 export default {
-  middleware: ['auth', 'config'],
+  middleware: ['auth'],
   async beforeCreate () {
     await this.$store.dispatch('config/getConfig')
   }
