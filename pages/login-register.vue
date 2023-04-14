@@ -30,11 +30,16 @@
     </div>
 
     <!--Login Register section start-->
-    <div class="login-register-section section-padding-bottom">
+    <div v-if="mounted" class="login-register-section section-padding-bottom">
       <div class="container">
         <div class="row">
           <div class="col-12">
-            <div class="row">
+            <div
+              class="row"
+              :class="{
+                'justify-content-center': externalLogin
+              }"
+            >
               <div class="col-xl-5 col-lg-6">
                 <!-- Login Form Start -->
                 <div class="login-form-wrapper">
@@ -93,7 +98,7 @@
                 </div>
                 <!-- Login Form End -->
               </div>
-              <div class="col-xl-6 offset-xl-1 col-lg-6">
+              <div v-if="!externalLogin" class="col-xl-6 offset-xl-1 col-lg-6">
                 <!-- Register Form Start -->
                 <div class="login-form-wrapper mt-sm-50 mt-xs-50">
                   <h3 class="title">
@@ -181,6 +186,7 @@ export default {
 
   data () {
     return {
+      mounted: false,
       registerForm: {},
       loginForm: {},
       eventData,
@@ -203,7 +209,15 @@ export default {
   computed: {
     getSelectorPlaceholder () {
       return this.placeholderItem
+    },
+    externalLogin () {
+      const config = this.$store.getters['config/getConfig']
+      const externalLogin = config && config.ClientSetting && config.ClientSetting.useExternalLogin
+      return externalLogin
     }
+  },
+  mounted () {
+    this.mounted = true
   },
   methods: {
     login () {
